@@ -5,10 +5,15 @@ import java.util.ArrayList;
 public class Empresa {
 	private String nombre;
 	private ArrayList<Empleado>empleados;
+	private ArrayList<Departamento>departamentos;
+	private ArrayList<Proyectos>proyectos;
 
 	public Empresa(String nombre) {
 		this.nombre=nombre;
 		this.empleados=new ArrayList<>();
+		this.departamentos=new ArrayList<>();
+		this.proyectos= new ArrayList<>();
+		
 	}
 
 	public String getNombre() {
@@ -19,6 +24,15 @@ public class Empresa {
 		this.nombre = nombre;
 	}
 	
+	
+	public ArrayList<Empleado> getEmpleados() {
+		return empleados;
+	}
+
+	public void setEmpleados(ArrayList<Empleado> empleados) {
+		this.empleados = empleados;
+	}
+
 	public boolean agregarEmpleado(Empleado e) {
 		boolean existe=empleadoExiste(e);
 		if(!existe) {
@@ -117,5 +131,59 @@ public class Empresa {
 		salarioIncremento = salarioOriginal + salarioOriginal * (incremento / 100);
 		e.setSalario(salarioOriginal);
 		return salarioIncremento;
+	}
+	
+	//Metodos agregados departamento y proyectos
+	
+	public void agregarProyecto(Proyectos p) {
+		this.proyectos.add(p);
+	}
+	
+	public String departamentoConMasEmpleados() {
+		String departamentoConMasEmpleados="";
+		int numeroDepartamentoMayor=0;
+		for(Departamento d:this.departamentos) {
+			int numeroEmpleados=departamentos.size();
+			if(numeroDepartamentoMayor<numeroEmpleados) {
+				departamentoConMasEmpleados=d.getNombre();
+				numeroDepartamentoMayor=numeroEmpleados;
+			}
+		}
+		return departamentoConMasEmpleados;
+	}
+	public String listarEmpleadosPorDepartamento(String nombreDepartamento) {
+		String listaEmpleados="";
+		for(Departamento d:this.departamentos) {
+			if(d.getNombre().equalsIgnoreCase(nombreDepartamento)) {
+				listaEmpleados=d.toString();
+			}
+		}
+		return listaEmpleados;
+	}
+	public String empleadosConProyecto(String nombreProyecto) {
+		String listaEmpleados="";
+		for(Proyectos p:this.proyectos) {
+			if(p.getNombre().equalsIgnoreCase(nombreProyecto)) {
+				listaEmpleados=p.toString();
+			}
+		}
+		return listaEmpleados;
+	}
+	public Proyectos proyectoMasLargo() {
+		Proyectos proyectoMasLargo=null;
+		for(Proyectos p:this.proyectos) {
+			if(proyectoMasLargo==null || proyectoMasLargo.informarDuracion()<p.informarDuracion()) {
+				proyectoMasLargo=p;
+			}
+		}
+		return proyectoMasLargo;
+	}
+	public double promedioProyectos() {
+		double promedioCosto=0;
+		for(Proyectos p:this.proyectos) {
+			promedioCosto+=p.getCosto();
+		}
+		promedioCosto=promedioCosto/this.proyectos.size();
+		return promedioCosto;
 	}
 }
